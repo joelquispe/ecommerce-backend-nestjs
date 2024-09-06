@@ -13,14 +13,12 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
   ) {
     const jwt = await this.authService.signIn(signInDto.username, signInDto.password);
-    console.log(jwt);
     res.cookie('access_token', jwt);
     return jwt;
   }
 
   @Get('profile')
   profile(@Req() req: Request) {
-    console.log(req.cookies);
     return req.cookies['access_token'];
   }
 }

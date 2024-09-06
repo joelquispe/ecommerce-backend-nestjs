@@ -14,8 +14,9 @@ import {
     async canActivate(context: ExecutionContext): Promise<boolean> {
       const request = context.switchToHttp().getRequest();
       const token = this.extractTokenFromHeader(request);
+      console.log(token);
       if (!token) {
-        throw new UnauthorizedException();
+        throw new UnauthorizedException("No esta autenticado");
       }
       try {
         const payload = await this.jwtService.verifyAsync(
@@ -28,7 +29,7 @@ import {
         // so that we can access it in our route handlers
         request['user'] = payload;
       } catch {
-        throw new UnauthorizedException();
+        throw new UnauthorizedException("No esta autenticado");
       }
       return true;
     }
